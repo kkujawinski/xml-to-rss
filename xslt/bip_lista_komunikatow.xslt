@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xsl:template match="/">
     <rss version="2.0">
     <channel>
-      <title>RSS Title</title>
-      <description>This is an example of an RSS feed</description>
-      <link>http://www.example.com/main.html</link>
-      <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000 </lastBuildDate>
-      <pubDate>Sun, 06 Sep 2009 16:20:00 +0000</pubDate>
-      <ttl>1800</ttl>
-      <item>
-        <title>Example entry</title>
-        <description>Here is some text containing an interesting description.</description>
-        <link>http://www.example.com/blog/post/1</link>
-        <guid isPermaLink="true">7bd204c6-1655-4c27-aeee-53f933c5395f</guid>
-        <pubDate>Sun, 06 Sep 2009 16:20:00 +0000</pubDate>
-      </item>
+      <xsl:apply-templates/>
     </channel>
     </rss>
   </xsl:template>
-</xsl:stylesheet>
 
+  <xsl:template match="//komunikat_ogloszenie">
+    <item>
+      <title>[<xsl:value-of select="./nw_from_date"/> - <xsl:value-of select="./nw_to_date"/>] <xsl:value-of select="./nw_title"/></title>
+      <description><xsl:value-of select="./nw_text"/></description>
+      <link><xsl:value-of select="./link"/></link>
+      <guid isPermaLink="true"><xsl:value-of select="./id"/></guid>
+      <pubDate><xsl:value-of select="./nw_from_date/text()"/></pubDate>
+    </item>
+  </xsl:template>
+
+  <xsl:template match="text()|@*"/>
+
+</xsl:stylesheet>
